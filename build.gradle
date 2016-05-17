@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+version = '0.1'
+
+mainClassName = "bfbc.tank.ai.runner.Main"
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'org.eclipse.jetty.websocket:websocket-client:9.3.6.v20151106'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'org.jdom:jdom2:2.0.6'
+}
