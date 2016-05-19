@@ -1,7 +1,14 @@
 package bfbc.tank.ai.runner;
 
+import java.io.IOException;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+
+import bfbc.tank.api.model.ClientStateModel;
+import bfbc.tank.api.model.DebugDataModel;
+import bfbc.tank.api.model.PlayerKeysModel;
+import bfbc.tank.api.model.TheStateModel;
 
 public class AIPlayerClientWebSocket extends WebSocketAdapter
 {
@@ -16,7 +23,18 @@ public class AIPlayerClientWebSocket extends WebSocketAdapter
     public void onWebSocketText(String message)
     {
         super.onWebSocketText(message);
-        System.out.println("Received TEXT message: " + message);
+        //System.out.println("Received TEXT message: " + message);
+        TheStateModel theStateModel = TheStateModel.fromJson(message);
+        System.out.println(theStateModel.getGameModel().getPlayers().get("player1").getUnit().getPosX());
+        
+        PlayerKeysModel pkm = new PlayerKeysModel(false, false, false, true, false);
+        ClientStateModel<DebugDataModel> csm = new ClientStateModel<DebugDataModel>(pkm, new DebugDataModel(""));
+        
+        try {
+			this.getRemote().sendString(csm.toJson());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @Override
