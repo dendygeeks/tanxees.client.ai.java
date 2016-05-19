@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
 	compile project(':tanks.api')
-	compile 'org.eclipse.jetty.websocket:websocket-client:9.3.6.v20151106'
+	compile 'org.eclipse.jetty.websocket:websocket-client:9.3.2.v20150730'
     compile 'com.google.code.gson:gson:2.5'
     compile 'org.jdom:jdom2:2.0.6'
 }
