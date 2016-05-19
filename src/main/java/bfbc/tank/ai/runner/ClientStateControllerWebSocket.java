@@ -10,9 +10,15 @@ import bfbc.tank.api.model.DebugDataModel;
 import bfbc.tank.api.model.PlayerKeysModel;
 import bfbc.tank.api.model.TheStateModel;
 
-public class AIPlayerClientWebSocket extends WebSocketAdapter
+class ClientStateControllerWebSocket extends WebSocketAdapter
 {
-    @Override
+	private ClientStateControllerBase clientStateController;
+	
+    public ClientStateControllerWebSocket(ClientStateControllerBase clientStateController) {
+		this.clientStateController = clientStateController;
+	}
+
+	@Override
     public void onWebSocketConnect(Session sess)
     {
         super.onWebSocketConnect(sess);
@@ -25,16 +31,20 @@ public class AIPlayerClientWebSocket extends WebSocketAdapter
         super.onWebSocketText(message);
         //System.out.println("Received TEXT message: " + message);
         TheStateModel theStateModel = TheStateModel.fromJson(message);
-        System.out.println(theStateModel.getGameModel().getPlayers().get("player1").getUnit().getPosX());
+        //System.out.println(theStateModel.getGameModel().getPlayers().get("player1").getUnit().getPosX());
         
-        PlayerKeysModel pkm = new PlayerKeysModel(false, false, false, true, false);
-        ClientStateModel<DebugDataModel> csm = new ClientStateModel<DebugDataModel>(pkm, new DebugDataModel(""));
+        //PlayerKeysModel pkm = new PlayerKeysModel(false, false, false, true, false);
+        //ClientStateModel<DebugDataModel> csm = new ClientStateModel<DebugDataModel>(pkm, new DebugDataModel(""));
         
-        try {
-			this.getRemote().sendString(csm.toJson());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        boolean hasToUpdate = clientStateController.updateClientState(theStateModel);
+        
+        if (hasToUpdate) {
+	        try {
+				this.getRemote().sendString(clientStateController.getClientStateModel().toJson());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
     }
     
     @Override
