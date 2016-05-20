@@ -1,14 +1,14 @@
-package bfbc.tank.ai.runner;
+package dendygeeks.tanxees.client.ai.java;
 
 import java.io.IOException;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
-import bfbc.tank.api.model.ClientStateModel;
-import bfbc.tank.api.model.DebugDataModel;
-import bfbc.tank.api.model.PlayerKeysModel;
-import bfbc.tank.api.model.TheStateModel;
+import dendygeeks.tanxees.api.java.model.ClientStateModel;
+import dendygeeks.tanxees.api.java.model.DebugDataModel;
+import dendygeeks.tanxees.api.java.model.PlayerKeysModel;
+import dendygeeks.tanxees.api.java.model.TheStateModel;
 
 class ClientStateControllerWebSocket extends WebSocketAdapter
 {

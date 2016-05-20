@@ -1,4 +1,4 @@
-package bfbc.tank.ai.runner;
+package dendygeeks.tanxees.client.ai.java;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
